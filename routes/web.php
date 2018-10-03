@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'CheckList@view');
+Route::get('/', 'CheckListController@view');
 
 Auth::routes();
 
