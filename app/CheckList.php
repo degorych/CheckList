@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CheckList extends Model
 {
-    //
+    public function view() {
+		return view('welcome');
+	}
 }
