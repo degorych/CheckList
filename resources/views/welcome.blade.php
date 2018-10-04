@@ -69,5 +69,4 @@
             </section>
         </div>
     </div>
-    <span>Hello!</span>
 @endsection
