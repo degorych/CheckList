@@ -16,7 +16,7 @@ class CreateCheckItemsTable extends Migration
         Schema::create('check_items', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('check_list_id')->unsigned();
-            $table->string('name');
+            $table->string('title');
             $table->string('description');
             $table->boolean('is_done')->default(0);
             $table->integer('order');
