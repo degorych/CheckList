@@ -45,7 +45,26 @@ class CheckListController extends Controller
 
     public function showItem($name)
     {
-        $checkList = CheckList::where('name', $name)->first()->checkItems;
-        return view('checkList', ['checkList' => $checkList]);
+        $checkList = CheckList::where('name', $name)->first();
+        $checkListParams = $checkList->checkItems;
+        return view('checkList', ['checkList' => $checkList, 'checkListParams' => $checkListParams]);
+    }
+
+    public function saveList(Request $request)
+    {
+        $inputs = $request->input() ?? [];
+
+        foreach ($inputs['is-done'] as $id => $input) {
+            $checkListItem = CheckItem::find($id);
+            $checkListItem->is_done = true;
+            $checkListItem->save();
+        }
+
+        return redirect()->back()->with(['message' => 'Check list saved']);
+    }
+
+    public function editList()
+    {
+
     }
 }

@@ -17,4 +17,6 @@ Auth::routes();
 
 Route::post('/create', 'CheckListController@create')->name('newCheckList');
 Route::get('/list', 'CheckListController@showList')->name('list');
-Route::get('/list/{name}', 'CheckListController@showItem');
+Route::get('/list/{name}', 'CheckListController@showItem')->name('showCheckList');
+Route::post('/list/{name}/save', 'CheckListController@saveList')->name('saveList');
+Route::get('/list/{name}/edit', 'CheckListController@editList')->name('editList');

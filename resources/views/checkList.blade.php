@@ -4,18 +4,26 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h2>Check lists</h2>
-                <form>
-                    @foreach($checkList as $listParams)
+                @if(session()->has('message'))
+                    <p class="alert alert-info">{{ session()->get('message') }}</p>
+                @endif
+
+                <h2>{{ $checkList['name'] }}</h2>
+                <p>{{ $checkList['description'] }}</p>
+                <form action="{{ route('saveList', ['name' => $checkList['name']]) }}" method="post">
+                    @csrf
+                    @foreach($checkListParams as $param)
                         <div class="form-check">
                             <label>
-                                <input type="checkbox" {{ $listParams['is_done'] ? 'checked' : '' }}><span
-                                        class="label-text">{{ $listParams['title'] }}</span>
+                                <input type="checkbox" {{ $param['is_done'] ? 'checked' : '' }} name="is-done[{{ $param['id'] }}]">
+                                <span class="label-text">{{ $param['title'] }}</span>
                             </label>
-                            <p>Description: {{ $listParams['description'] }}</p>
+                            <p>Description: {{ $param['description'] }}</p>
                         </div>
                     @endforeach
-                    <button>Send</button>
+                    <button class="btn btn-success">Save</button>
+                    <a href="{{ route('editList', ['name' => $checkList['name']]) }}"
+                       class="btn btn-info">Edit</a>
                 </form>
             </div>
         </div>
