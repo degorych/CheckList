@@ -15,5 +15,6 @@ Route::get('/', 'CheckListController@view')->name('index');
 
 Auth::routes();
 
-Route::post('/checkList/create', 'CheckListController@create')->name('newCheckList');
-Route::get('/checkList/list', 'CheckListController@showList');
+Route::post('/create', 'CheckListController@create')->name('newCheckList');
+Route::get('/list', 'CheckListController@showList')->name('list');
+Route::get('/list/{name}', 'CheckListController@showItem');

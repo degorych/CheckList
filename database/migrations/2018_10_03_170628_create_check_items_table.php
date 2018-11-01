@@ -18,8 +18,8 @@ class CreateCheckItemsTable extends Migration
             $table->integer('check_list_id')->unsigned();
             $table->string('title');
             $table->string('description');
-            $table->boolean('is_done')->default(0);
             $table->integer('order');
+            $table->boolean('is_done')->default(false);
             $table->timestamps();
 
             $table->foreign('check_list_id')->references('id')->on('check_lists');

@@ -17,6 +17,7 @@ class CheckListController extends Controller
     {
         $newCheckList = CheckList::create([
             'name' => $request->input('check-list-name'),
+            'user_id' => $request->user()->id ?? null,
             'color' => $request->input('check-list-color'),
             'description' => $request->input('check-list-description'),
         ]);
@@ -29,7 +30,6 @@ class CheckListController extends Controller
                 'check_list_id' => $newCheckList->id,
                 'title' => $inputs['item-title'][$i],
                 'description' => $inputs['item-description'][$i],
-                'is_done' => isset($inputs['is-done'][$i]) ? 1 : 0,
                 'order' => $inputs['item-order'][$i],
             ]);
         }
@@ -37,9 +37,15 @@ class CheckListController extends Controller
         return redirect()->route('index')->with('message', 'You add new check list successfully');
     }
 
-    public function showList() {
-        $checkLists = CheckList::paginate(2);
-
+    public function showList()
+    {
+        $checkLists = CheckList::paginate(10);
         return view('list', ['checkLists' => $checkLists]);
+    }
+
+    public function showItem($name)
+    {
+        $checkList = CheckList::where('name', $name)->first()->checkItems;
+        return view('checkList', ['checkList' => $checkList]);
     }
 }

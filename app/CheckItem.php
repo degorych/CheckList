@@ -12,7 +12,11 @@ class CheckItem extends Model
         'check_list_id',
         'title',
         'description',
-        'is_done',
         'order',
     ];
+
+    public function checkLists()
+    {
+        return $this->belongsTo('App\CheckList');
+    }
 }

@@ -10,7 +10,13 @@ class CheckList extends Model
 
     protected $fillable = [
         'name',
+        'user_id',
         'color',
         'description',
     ];
+
+    public function checkItems()
+    {
+        return $this->hasMany('App\CheckItem');
+    }
 }

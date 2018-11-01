@@ -40,35 +40,21 @@
 
                     </div>
                     <div class="check-list-item">
-                        <input type="text" class="item-title" placeholder="Tile" name="item-title[0]">
-                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[0]">
-                        <input type="checkbox" name="is-done[0]">
-                        <input type="number" class="item-order" placeholder="Order" name="item-order[0]">
+                        <input type="text" class="item-title" placeholder="Tile" name="item-title[]">
+                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[]">
+                        <input type="number" class="item-order" placeholder="Order" name="item-order[]">
                     </div>
                     <div class="check-list-item">
-                        <input type="text" class="item-title" placeholder="Tile" name="item-title[1]">
-                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[1]">
-                        <input type="checkbox" name="is-done[1]">
-                        <input type="number" class="item-order" placeholder="Order" name="item-order[1]">
+                        <input type="text" class="item-title" placeholder="Tile" name="item-title[]">
+                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[]">
+                        <input type="number" class="item-order" placeholder="Order" name="item-order[]">
                     </div>
                     <div class="check-list-item">
-                        <input type="text" class="item-title" placeholder="Tile" name="item-title[2]">
-                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[2]">
-                        <input type="checkbox" name="is-done[2]">
-                        <input type="number" class="item-order" placeholder="Order" name="item-order[2]">
+                        <input type="text" class="item-title" placeholder="Tile" name="item-title[]">
+                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[]">
+                        <input type="number" class="item-order" placeholder="Order" name="item-order[]">
                     </div>
-                    <div class="check-list-item">
-                        <input type="text" class="item-title" placeholder="Tile" name="item-title[3]">
-                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[3]">
-                        <input type="checkbox" name="is-done[3]">
-                        <input type="number" class="item-order" placeholder="Order" name="item-order[3]">
-                    </div>
-                    <div class="check-list-item">
-                        <input type="text" class="item-title" placeholder="Tile" name="item-title[4]">
-                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[4]">
-                        <input type="checkbox" name="is-done[4]">
-                        <input type="number" class="item-order" placeholder="Order" name="item-order[4]">
-                    </div>
+
                     <button>Send</button>
                 </form>
             </section>

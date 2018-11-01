@@ -15,10 +15,13 @@ class CreateCheckListsTable extends Migration
     {
         Schema::create('check_lists', function (Blueprint $table) {
             $table->increments('id')->unsigned();
+            $table->unsignedInteger('user_id')->nullable()->default(null);
             $table->string('name', 20)->unique();
             $table->string('color', 10);
             $table->string('description', 255);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
