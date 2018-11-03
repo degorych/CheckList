@@ -8,11 +8,6 @@ use App\CheckList;
 
 class CheckListController extends Controller
 {
-    public function view()
-    {
-        return view('index');
-    }
-
     public function create(Request $request)
     {
         $newCheckList = CheckList::create([
