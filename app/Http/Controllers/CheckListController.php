@@ -26,7 +26,7 @@ class CheckListController extends Controller
         $inputsNumber = count($inputs['item-title']);
 
         for ($i = 0; $i < $inputsNumber; $i++) {
-            $checkListItems = CheckItem::create([
+            $checkListItems[] = CheckItem::create([
                 'check_list_id' => $newCheckList->id,
                 'title' => $inputs['item-title'][$i],
                 'description' => $inputs['item-description'][$i],
@@ -34,7 +34,8 @@ class CheckListController extends Controller
             ]);
         }
 
-        return redirect()->route('index')->with('message', 'You add new check list successfully');
+        return redirect()->route('showCheckList', $newCheckList['name'])->with('message',
+            'You add new check list successfully');
     }
 
     public function showList()
@@ -63,8 +64,28 @@ class CheckListController extends Controller
         return redirect()->back()->with(['message' => 'Check list saved']);
     }
 
-    public function editList()
+    public function editList($name)
+    {
+        $checkList = CheckList::where('name', $name)->first();
+        $checkListParams = $checkList->checkItems;
+        return view('edit', ['checkList' => $checkList, 'checkListParams' => $checkListParams]);
+    }
+
+    public function updateList(Request $request)
     {
 
+        dd($request->input());
+
+//        $inputs = $request->input();
+//        $inputsNumber = count($inputs['item-title']);
+//
+//        for ($i = 0; $i < $inputsNumber; $i++) {
+//            $checkListItems[] = CheckItem::create([
+//                'check_list_id' => $newCheckList->id,
+//                'title' => $inputs['item-title'][$i],
+//                'description' => $inputs['item-description'][$i],
+//                'order' => $inputs['item-order'][$i],
+//            ]);
+//        }
     }
 }

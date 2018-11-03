@@ -27,14 +27,11 @@
     <div class="container">
         <div class="row">
             <section class="create-check-list-block">
-                @if(session()->has('message'))
-                    <p class="alert alert-info">{{ session()->get('message') }}</p>
-                @endif
                 <form method="post" action="{{ route('newCheckList') }}" id="check-list-create">
                     @csrf
                     <div class="check-list-head">
-                        <input type="textarea" name="check-list-name" placeholder="Enter checklist name">
-                        <input type="text" name="check-list-description" placeholder="Enter checklist description">
+                        <input type="textarea" class="form-control" name="check-list-name" placeholder="Enter checklist name">
+                        <input type="text" class="form-control" name="check-list-description" placeholder="Enter checklist description">
                         <label>Select background color:</label>
                         <input type="color" name="check-list-color">
 
@@ -55,7 +52,7 @@
                         <input type="number" class="item-order" placeholder="Order" name="item-order[]">
                     </div>
 
-                    <button>Send</button>
+                    <button class="btn btn-info">Send</button>
                 </form>
             </section>
         </div>
