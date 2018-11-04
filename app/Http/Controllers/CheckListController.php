@@ -114,13 +114,15 @@ class CheckListController extends Controller
 
     public function done(Request $request, $name)
     {
-        $inputs = $request->input() ?? [];
+        $inputs = $request->only('is-done');
 
-        foreach ($inputs['is-done'] as $id => $input) {
-            $checkListItem = CheckItem::find($id);
-            $checkListItem->is_done = true;
-            $checkListItem->save();
-        }
+        if (!empty($inputs)) {
+			foreach ($inputs['is-done'] as $id => $input) {
+                $checkListItem = CheckItem::find($id);
+                $checkListItem->is_done = true;
+                $checkListItem->save();
+            }
+		}
 
         return redirect()->route('list.show', ['name' => $name])->with(['message' => 'Check list updated']);
     }
