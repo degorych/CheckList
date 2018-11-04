@@ -8,7 +8,7 @@
 
                 <ul class="list-group">
                     @foreach ($checkLists as $checkList)
-                        <li class="list-group-item"><a href="{{ route('showCheckList', ['name' => $checkList->name]) }}{{--{{ route('form.show', ['id' => $checkList->id]) }}--}}">Title: {{ $checkList->name }}</a></li>
+                        <li class="list-group-item"><a href="{{ route('list.show', ['name' => $checkList->name]) }}">Title: {{ $checkList->name }}</a></li>
                     @endforeach
                 </ul>
 

@@ -11,18 +11,27 @@
 
                 <h2>{{ $checkList['name'] }}</h2>
                 <p>{{ $checkList['description'] }}</p>
-                <form action="{{ route('updateList', ['name' => $checkList['name']]) }}" method="post">
+                <form action="{{ route('list.update', ['name' => $checkList['name']]) }}" method="post">
+                    @method('PUT')
                     @csrf
                     @foreach($checkListParams as $param)
                         <div class="form-check">
                             <label>
-                                <span>Title:</span><input type="text" name="title[{{ $param['id'] }}]" value="{{ $param['title'] }}">
+                                <span>Title:</span><input type="text" name="title[{{ $param['id'] }}]"
+                                                          value="{{ $param['title'] }}">
                             </label>
                             <label>
-                                <span>Description</span><input type="text" name="description[{{ $param['id'] }}]" value="{{ $param['description'] }}">
+                                <span>Description</span><input type="text" name="description[{{ $param['id'] }}]"
+                                                               value="{{ $param['description'] }}">
                             </label>
                             <label>
-                                <span>Order:</span><input type="number" name="order[{{ $param['id'] }}]" value="{{ $param['order'] }}">
+                                <span>Order:</span><input type="number" name="order[{{ $param['id'] }}]"
+                                                          value="{{ $param['order'] }}">
+                            </label>
+                            <label>
+                            <input type="checkbox"
+                                   name="is_done[{{ $param['id'] }}]" {{ $param['is_done'] === 1 ? 'checked' : '' }}>
+                                <span class="label-text">done</span>
                             </label>
                         </div>
                     @endforeach

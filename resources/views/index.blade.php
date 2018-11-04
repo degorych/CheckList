@@ -27,7 +27,7 @@
     <div class="container">
         <div class="row">
             <section class="create-check-list-block">
-                <form method="post" action="{{ route('newCheckList') }}" id="check-list-create">
+                <form method="post" action="{{ route('list.store') }}" id="check-list-create">
                     @csrf
                     <div class="check-list-head">
                         <input type="textarea" class="form-control" name="check-list-name" placeholder="Enter checklist name">

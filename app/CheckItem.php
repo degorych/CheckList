@@ -13,6 +13,7 @@ class CheckItem extends Model
         'title',
         'description',
         'order',
+        'is_done',
     ];
 
     public function checkLists()

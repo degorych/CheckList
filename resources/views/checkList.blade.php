@@ -11,7 +11,7 @@
 
                 <h2>{{ $checkList['name'] }}</h2>
                 <p>{{ $checkList['description'] }}</p>
-                <form action="{{ route('saveList', ['name' => $checkList['name']]) }}" method="post">
+                <form action="{{ route('done', ['name' => $checkList['name']]) }}" method="post">
                     @csrf
                     @foreach($checkListParams as $param)
                         <div class="form-check">
@@ -23,7 +23,7 @@
                         </div>
                     @endforeach
                     <button class="btn btn-success">Save</button>
-                    <a href="{{ route('editList', ['name' => $checkList['name']]) }}"
+                    <a href="{{ route('list.edit', ['name' => $checkList['name']]) }}"
                        class="btn btn-info">Edit</a>
                 </form>
             </div>

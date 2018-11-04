@@ -27,7 +27,7 @@
                     {{ config('app.name', 'Laravel') }}
                 </a>
 
-                <a class="navbar-brand" href="{{ route('list') }}">
+                <a class="navbar-brand" href="{{ route('list.index') }}">
                     List
                 </a>
 
