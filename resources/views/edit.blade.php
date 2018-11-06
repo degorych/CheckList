@@ -9,6 +9,10 @@
                     <p class="alert alert-info">{{ session()->get('message') }}</p>
                 @endif
 
+                @if(session()->has('error'))
+                    <p class="alert alert-danger">{{ session()->get('error') }}</p>
+                @endif
+
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>

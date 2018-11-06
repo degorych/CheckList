@@ -24,7 +24,7 @@ class CheckListRequest extends FormRequest
     public function rules()
     {
         return [
-            'check-list-name' => 'required|max:30',
+            'check-list-title' => 'required|max:30',
             'check-list-description' => 'required|max:200',
             'item-title.*' => 'required|max:30',
             'item-description.*' => 'required|max:200',
