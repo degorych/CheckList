@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\CheckItem;
 use App\CheckList;
+use App\Http\Requests\CheckListRequest;
 
 class CheckListController extends Controller
 {
@@ -35,7 +36,7 @@ class CheckListController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CheckListRequest $request)
     {
         $newCheckList = CheckList::create([
             'name' => $request->input('check-list-name'),
@@ -93,14 +94,20 @@ class CheckListController extends Controller
      * @param string $name
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $name)
+    public function update(CheckListRequest $request, $name)
     {
-        $listItems = $request->only('title', 'description', 'order', 'is_done');
+        $checkList = $request->only('check-list-title', 'check-list-description');
+        CheckList::where('name', $name)->update([
+            'name' => $request->input('check-list-title'),
+            'description' => $request->input('check-list-description')
+        ]);
+
+        $listItems = $request->only('item-title', 'item-description', 'item-order', 'is_done');
 
         $formatList = [];
         foreach ($listItems as $itemName => $itemValues) {
             foreach ($itemValues as $itemId => $itemValue) {
-                $formatList[$itemId][$itemName] = $itemValue;
+                $formatList[$itemId][ltrim($itemName, 'item-')] = $itemValue;
             }
         }
 
@@ -109,7 +116,8 @@ class CheckListController extends Controller
             CheckItem::findOrFail($itemId)->update($item);
         }
 
-        return redirect()->route('list.show', ['name' => $name])->with(['message' => 'Check list updated']);
+        return redirect()->route('list.show',
+            ['name' => $checkList['check-list-title']])->with(['message' => 'Check list updated']);
     }
 
     public function done(Request $request, $name)
@@ -117,12 +125,12 @@ class CheckListController extends Controller
         $inputs = $request->only('is-done');
 
         if (!empty($inputs)) {
-			foreach ($inputs['is-done'] as $id => $input) {
+            foreach ($inputs['is-done'] as $id => $input) {
                 $checkListItem = CheckItem::find($id);
                 $checkListItem->is_done = true;
                 $checkListItem->save();
             }
-		}
+        }
 
         return redirect()->route('list.show', ['name' => $name])->with(['message' => 'Check list updated']);
     }
