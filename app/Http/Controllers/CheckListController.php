@@ -69,7 +69,7 @@ class CheckListController extends Controller
     public function show($name)
     {
         $checkList = CheckList::where('name', $name)->first();
-        $checkListParams = $checkList->checkItems->where('is_done', 0);
+        $checkListParams = $checkList->checkItems->where('is_done', 0)->sortBy('order');
         return view('checkList', ['checkList' => $checkList, 'checkListParams' => $checkListParams]);
     }
 

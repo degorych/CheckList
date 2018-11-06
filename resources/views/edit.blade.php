@@ -34,6 +34,7 @@
                                 <span class="label-text">done</span>
                             </label>
                         </div>
+                        <hr>
                     @endforeach
                     <button class="btn btn-success">Save</button>
                 </form>
