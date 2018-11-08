@@ -5,19 +5,8 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
 
-                @if(session()->has('message'))
-                    <p class="alert alert-info">{{ session()->get('message') }}</p>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                @include('layouts.message')
+                @include('layouts.error')
 
                 <h2>{{ $checkList['name'] }}</h2>
                 <p>{{ $checkList['description'] }}</p>

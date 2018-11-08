@@ -27,19 +27,9 @@
     <div class="container">
         <div class="row">
             <section class="create-check-list-block">
-                @if(session()->has('error'))
-                    <p class="alert alert-danger">{{ session()->get('error') }}</p>
-                @endif
 
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                @include('layouts.error')
+
                 <form method="post" action="{{ route('list.store') }}" id="check-list-create">
                     @csrf
                     <div class="check-list-head">

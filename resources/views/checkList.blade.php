@@ -5,9 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
 
-                @if(session()->has('message'))
-                    <p class="alert alert-info">{{ session()->get('message') }}</p>
-                @endif
+                @include('layouts.message')
 
                 <h2>{{ $checkList['name'] }}</h2>
                 <p>{{ $checkList['description'] }}</p>

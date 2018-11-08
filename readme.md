@@ -26,5 +26,4 @@ In this application new register users have not admin role, but if you want use 
 
 ## Need to do
 
-- Make layouts and include them to views
 - Route resource -> normalize
