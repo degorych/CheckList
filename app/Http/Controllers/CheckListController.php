@@ -38,13 +38,6 @@ class CheckListController extends Controller
      */
     public function store(CheckListRequest $request)
     {
-        $validate = $request->only('item-order');
-        $filter = array_unique($validate['item-order']);
-
-        if (count($validate['item-order']) !== count($filter)) {
-            return back()->withInput()->with('error', 'Orders are not unique');
-        }
-
         $newCheckList = CheckList::create([
             'name' => $request->input('check-list-name'),
             'user_id' => $request->user()->id ?? null,
@@ -103,13 +96,6 @@ class CheckListController extends Controller
      */
     public function update(CheckListRequest $request, $name)
     {
-        $validate = $request->only('item-order');
-        $filter = array_unique($validate['item-order']);
-
-        if (count($validate['item-order']) !== count($filter)) {
-            return back()->withInput()->with('error', 'Orders are not unique');
-        }
-
         $checkList = $request->only('check-list-title', 'check-list-description');
         CheckList::where('name', $name)->update([
             'name' => $request->input('check-list-title'),

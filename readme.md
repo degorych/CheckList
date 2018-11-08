@@ -23,3 +23,8 @@
 In this application new register users have not admin role, but if you want use admin functional you must login with **admin@mail.com** email and **123456** password. If you want add new admin or change email/password go to `database/seeds/UserSeeder.php` and add/change data. Do not forget to run `php artisan migrate:refresh --seed` if you change seeder.
 
 #### You can now access your project at localhost:8000 :)
+
+## Need to do
+
+- Make layouts and include them to views
+- Route resource -> normalize
