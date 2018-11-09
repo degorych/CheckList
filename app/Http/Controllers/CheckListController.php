@@ -21,20 +21,10 @@ class CheckListController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param CheckListRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CheckListRequest $request)
     {
@@ -90,9 +80,9 @@ class CheckListController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param string $name
-     * @return \Illuminate\Http\Response
+     * @param CheckListRequest $request
+     * @param $name
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CheckListRequest $request, $name)
     {
@@ -120,6 +110,12 @@ class CheckListController extends Controller
             ['name' => $checkList['check-list-title']])->with(['message' => 'Check list updated']);
     }
 
+    /**
+     * Hide check list item if he is done.
+     * @param Request $request
+     * @param $name
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function done(Request $request, $name)
     {
         $inputs = $request->only('is-done');
@@ -133,16 +129,5 @@ class CheckListController extends Controller
         }
 
         return redirect()->route('list.show', ['name' => $name])->with(['message' => 'Check list updated']);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

@@ -15,6 +15,9 @@ Route::view('/', 'index')->name('index');
 
 Auth::routes();
 
-Route::post('/list/{name}/done', 'CheckListController@done')->name('done');
-Route::resource('list', 'CheckListController')->except(['destroy', 'create']);
-
+Route::post('/list/{name}/done', 'CheckListController@done')->name('list.done');
+Route::get('/list', 'CheckListController@index')->name('list.index');
+Route::post('/list', 'CheckListController@store')->name('list.store');
+Route::get('/list/{name}', 'CheckListController@show')->name('list.show');
+Route::get('/list/{name}/edit', 'CheckListController@edit')->name('list.edit');
+Route::put('/list/{name}/update', 'CheckListController@update')->name('list.update');

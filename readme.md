@@ -26,4 +26,4 @@ In this application new register users have not admin role, but if you want use 
 
 ## Need to do
 
-- Route resource -> normalize
+- User authorize check

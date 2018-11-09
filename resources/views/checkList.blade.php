@@ -9,7 +9,7 @@
 
                 <h2>{{ $checkList['name'] }}</h2>
                 <p>{{ $checkList['description'] }}</p>
-                <form action="{{ route('done', ['name' => $checkList['name']]) }}" method="post">
+                <form action="{{ route('list.done', ['name' => $checkList['name']]) }}" method="post">
                     @csrf
                     @foreach($checkListParams as $param)
                         <div class="form-check">
