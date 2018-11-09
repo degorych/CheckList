@@ -22,6 +22,11 @@
                             <span>Check list description:</span><textarea type="text"
                                                                           name="check-list-description">{{ $checkList['description'] }}</textarea>
                         </label>
+                        <label>
+                            <span>Check list color:</span><input type="color"
+                                                                 name="check-list-color"
+                                                                 value="{{ $checkList['color'] }}">
+                        </label>
                     </div>
                     @foreach($checkListParams as $param)
                         <div class="form-check">

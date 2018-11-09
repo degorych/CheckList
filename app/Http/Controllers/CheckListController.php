@@ -29,7 +29,7 @@ class CheckListController extends Controller
     public function store(CheckListRequest $request)
     {
         $newCheckList = CheckList::create([
-            'name' => $request->input('check-list-name'),
+            'name' => $request->input('check-list-title'),
             'user_id' => $request->user()->id ?? null,
             'color' => $request->input('check-list-color'),
             'description' => $request->input('check-list-description'),
@@ -86,10 +86,11 @@ class CheckListController extends Controller
      */
     public function update(CheckListRequest $request, $name)
     {
-        $checkList = $request->only('check-list-title', 'check-list-description');
+        $newCheckListData = $request->only('check-list-title', 'check-list-description', 'check-list-color');
         CheckList::where('name', $name)->update([
-            'name' => $request->input('check-list-title'),
-            'description' => $request->input('check-list-description')
+            'name' => $newCheckListData['check-list-title'],
+            'description' => $newCheckListData['check-list-description'],
+            'color' => $newCheckListData['check-list-color'],
         ]);
 
         $listItems = $request->only('item-title', 'item-description', 'item-order', 'is_done');
@@ -102,16 +103,17 @@ class CheckListController extends Controller
         }
 
         foreach ($formatList as $itemId => $item) {
-            $item['is_done'] = isset($item['is_done']) ? true : false;
+            $item['is_done'] = isset($item['is_done']);
             CheckItem::findOrFail($itemId)->update($item);
         }
 
         return redirect()->route('list.show',
-            ['name' => $checkList['check-list-title']])->with(['message' => 'Check list updated']);
+            ['name' => $newCheckListData['check-list-title']])->with(['message' => 'Check list updated']);
     }
 
     /**
      * Hide check list item if he is done.
+     *
      * @param Request $request
      * @param $name
      * @return \Illuminate\Http\RedirectResponse

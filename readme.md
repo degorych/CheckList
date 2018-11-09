@@ -26,4 +26,4 @@ In this application new register users have not admin role, but if you want use 
 
 ## Need to do
 
-- User authorize check
+- Show user own lists
