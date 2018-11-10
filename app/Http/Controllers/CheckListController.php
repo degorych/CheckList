@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\CheckItem;
 use App\CheckList;
 use App\Http\Requests\CheckListRequest;
+use Auth;
 
 class CheckListController extends Controller
 {
@@ -16,7 +17,17 @@ class CheckListController extends Controller
      */
     public function index()
     {
-        $checkLists = CheckList::paginate(10);
+        if (!Auth::check()) {
+            return view('list', ['checkLists' => []]);
+        }
+
+        $checkLists = CheckList::where('user_id', Auth::id())->paginate(10);
+        return view('list', ['checkLists' => $checkLists]);
+    }
+
+    public function publicIndex()
+    {
+        $checkLists = CheckList::whereNull('user_id')->paginate(10);
         return view('list', ['checkLists' => $checkLists]);
     }
 
@@ -54,12 +65,14 @@ class CheckListController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  string $name
-     * @return \Illuminate\Http\Response
+     * @param $name
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($name)
     {
         $checkList = CheckList::where('name', $name)->first();
+        $this->authorize('show', $checkList);
         $checkListParams = $checkList->checkItems->where('is_done', 0)->sortBy('order');
         return view('checkList', ['checkList' => $checkList, 'checkListParams' => $checkListParams]);
     }
@@ -67,12 +80,14 @@ class CheckListController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $name
-     * @return \Illuminate\Http\Response
+     * @param $name
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($name)
     {
         $checkList = CheckList::where('name', $name)->first();
+        $this->authorize('update', $checkList);
         $checkListParams = $checkList->checkItems;
         return view('edit', ['checkList' => $checkList, 'checkListParams' => $checkListParams]);
     }
@@ -83,15 +98,19 @@ class CheckListController extends Controller
      * @param CheckListRequest $request
      * @param $name
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(CheckListRequest $request, $name)
     {
         $newCheckListData = $request->only('check-list-title', 'check-list-description', 'check-list-color');
-        CheckList::where('name', $name)->update([
+        $checkList = CheckList::where('name', $name)->first();
+        $checkList->update([
             'name' => $newCheckListData['check-list-title'],
             'description' => $newCheckListData['check-list-description'],
             'color' => $newCheckListData['check-list-color'],
         ]);
+
+        $this->authorize('update', $checkList);
 
         $listItems = $request->only('item-title', 'item-description', 'item-order', 'is_done');
 
