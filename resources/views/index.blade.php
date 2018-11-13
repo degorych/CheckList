@@ -2,62 +2,64 @@
 
 @section('content')
 
-    <style>
-        .check-list-head {
-            width: 200px;
-        }
-        .check-list-head input {
-            width: 200px;
-            margin: 10px;
-        }
-        .check-list-item {
-            margin: 10px;
-        }
-        .item-title {
-            width: 200px;
-        }
-        .item-descripton {
-            width: 400px;
-        }
-        .item-order {
-            width: 55px;
-        }
-
-    </style>
     <div class="container">
         <div class="row">
-            <section class="create-check-list-block">
 
-                @include('layouts.error')
+            @include('layouts.error')
 
-                <form method="post" action="{{ route('list.store') }}" id="check-list-create">
-                    @csrf
-                    <div class="check-list-head">
-                        <input type="text" class="form-control" name="check-list-title" placeholder="Enter checklist name" value="{!! old('check-list-name') !!}">
-                        <textarea type="text" class="form-control" name="check-list-description" placeholder="Enter checklist description">{!! old('check-list-description') !!}</textarea>
-                        <label>Select background color:</label>
-                        <input type="color" name="check-list-color">
+            <form method="post" action="{{ route('list.store') }}" id="check-list-create"
+                  class="col-lg-7 form-horizontal">
+                @csrf
+                <div class="form-group row">
+                    <label for="check-list-title" class="col-sm-2 control-label">Title:</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="check-list-title" class="form-control" name="check-list-title"
+                               placeholder="Enter checklist name" value="{!! old('check-list-title') !!}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="check-list-description" class="col-sm-2 control-label">Description:</label>
+                    <div class="col-sm-10">
+                            <textarea type="text" id="check-list-description" class="form-control"
+                                      name="check-list-description"
+                                      placeholder="Enter checklist description">{!! old('check-list-description') !!}</textarea>
+                    </div>
+                </div>
 
-                    </div>
-                    <div class="check-list-item">
-                        <input type="text" class="item-title" placeholder="Tile" name="item-title[]" value="{!! old('item-title.0') !!}">
-                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[]" value="{!! old('item-description.0') !!}">
-                        <input type="number" class="item-order" placeholder="Order" name="item-order[]" value="{!! old('item-order.0') !!}">
-                    </div>
-                    <div class="check-list-item">
-                        <input type="text" class="item-title" placeholder="Tile" name="item-title[]" value="{!! old('item-title.1') !!}">
-                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[]" value="{!! old('item-description.1') !!}">
-                        <input type="number" class="item-order" placeholder="Order" name="item-order[]" value="{!! old('item-order.1') !!}">
-                    </div>
-                    <div class="check-list-item">
-                        <input type="text" class="item-title" placeholder="Tile" name="item-title[]" value="{!! old('item-title.2') !!}">
-                        <input type="text" class="item-descripton" placeholder="Description" name="item-description[]" value="{!! old('item-description.2') !!}">
-                        <input type="number" class="item-order" placeholder="Order" name="item-order[]" value="{!! old('item-order.2') !!}">
-                    </div>
+                <input type="hidden" id="counter" name="check-list-counter" value="1">
 
-                    <button class="btn btn-info">Send</button>
-                </form>
-            </section>
+                <div class="form-group row">
+                    <label for="check-list-color" class="col-sm-5 control-label">Select background color:</label>
+                    <div class="col-sm-2">
+                        <input id="check-list-color" type="color" name="check-list-color">
+                    </div>
+                </div>
+                <div id="items" class="form-group">
+
+                    @php
+                        $counter = old('check-list-counter') ?? 1;
+                    @endphp
+
+                    @for ($i = 0; $i < $counter; $i++)
+                        <div class="card">
+                            <div class="card-body" style="padding: 0.5rem">
+                                <input type="text" class="form-control-plaintext"
+                                       name="item-title[{{ $i }}]"
+                                       placeholder="my title"
+                                       value="{{ old("item-title.$i") }}">
+                                <input type="text" class="form-control-plaintext"
+                                       name="item-description[{{ $i }}]"
+                                       placeholder="my description"
+                                       value="{{ old("item-description.$i") }}">
+                                <input type="hidden" name="item-order[{{ $i }}]" value="{{ $i }}">
+                            </div>
+                        </div>
+                    @endfor
+
+                </div>
+                <button class="btn btn-success">Send</button>
+                <a href="" id="item-add" class="btn btn-info">Add</a>
+            </form>
         </div>
     </div>
 @endsection

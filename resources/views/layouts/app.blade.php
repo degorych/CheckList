@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -85,5 +86,7 @@
             @yield('content')
         </main>
     </div>
+    <script src="{{ asset('js/jQuery.js') }}" defer></script>
+    <script src="{{ asset('js/script.js') }}" defer></script>
 </body>
 </html>

@@ -1,0 +1,14 @@
+#items > .card {
+    margin-top: 10px;
+}
+
+#items .card-body {
+    padding: 0.5rem;
+}
+
+.form-control-plaintext {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+}
