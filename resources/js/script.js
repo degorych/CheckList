@@ -1,8 +1,17 @@
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
+import 'jquery-ui/ui/widgets/draggable.js';
+import 'jquery-ui/ui/widgets/sortable.js';
+
+
 const addItem = $('#item-add');
 const items = $('#items');
 const itemsCounter = $('#counter');
 
 let counter = 1;
+
+items.sortable();
 
 addItem.on('click', function (e) {
     e.preventDefault();
