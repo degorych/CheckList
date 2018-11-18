@@ -5,34 +5,83 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import $ from 'jquery';
-window.$ = window.jQuery = $;
+import Sortable from 'sortablejs/Sortable.js'
+window.Sortable = Sortable;
 
-import 'jquery-ui/ui/widgets/draggable.js';
-import 'jquery-ui/ui/widgets/sortable.js';
-
-const addItem = $('#item-add');
-const items = $('#items');
-const itemsCounter = $('#counter');
+const addItem = document.getElementById('item-add');
+const items = document.getElementById('items');
+const itemsCounter = document.getElementById('counter');
 
 let counter = 1;
 
-items.sortable();
-
-addItem.on('click', function (e) {
+addItem.addEventListener('click', function (e) {
     e.preventDefault();
-    const newCard = $("<div>", {"class": "card"});
-    const newCardBody = $("<div>", {"class": "card-body"});
 
-    newCardBody.append($('<input>', {'type': 'text', 'class': 'form-control-plaintext', 'name': `item-title[${counter}]`, 'placeholder': 'my title'}));
-    newCardBody.append($('<input>', {'type': 'text', 'class': 'form-control-plaintext', 'name': `item-description[${counter}]`, 'placeholder': 'my description'}));
-    newCardBody.append($('<input>', {'type': 'hidden', 'name': `item-order[${counter}]`, 'value': counter}));
+    const newCard = document.createElement('div');
+    newCard.className = "card";
 
-    newCardBody.appendTo(newCard);
-    newCard.appendTo(items);
+    const newCardBody = document.createElement('div');
+    newCardBody.className = "card-body";
+
+    const inputSettings = [
+        {
+            type: 'text',
+            class: 'form-control-plaintext',
+            name: `item-title[${counter}]`,
+            placeholder: 'my title'
+        },
+        {
+            type: 'text',
+            class: 'form-control-plaintext',
+            name: `item-description[${counter}]`,
+            placeholder: 'my description'
+        },
+        {
+            type: 'hidden',
+            name: `item-order[${counter}]`,
+            value: counter
+        }
+    ];
+
+    inputSettings.forEach(function (input) {
+        const newElem = document.createElement('input');
+        for (let key in input) {
+            newElem.setAttribute(key, input[key]);
+        }
+
+        newCardBody.appendChild(newElem);
+    });
+
+    newCard.appendChild(newCardBody);
+    items.appendChild(newCard);
     counter++;
-    itemsCounter.val(counter);
+    itemsCounter.setAttribute('value', counter.toString());
 });
+
+const sortable = Sortable.create(items, {
+    animation: 300,
+    onEnd: function (evt) {
+        let min = evt.oldIndex;  // element's old index within old parent
+        let max = evt.newIndex;  // element's new index within new parent
+
+        if (max < min) {
+            [max, min] = [min, max];
+        }
+
+        let list = items.querySelectorAll('input[type="hidden"]');
+
+        list = [...list].filter(function(input) {
+            const value = input.getAttribute('value');
+            return value >= min && value <= max;
+        })
+
+        list.forEach( function(element) {
+            element.setAttribute('value', min);
+            min++;
+        });
+    },
+});
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -20,6 +20,6 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "jquery-ui": "github:jquery/jquery-ui#1.12.1"
+        "sortablejs": "^1.7.0"
     }
 }
