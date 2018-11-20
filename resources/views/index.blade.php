@@ -42,16 +42,23 @@
 
                     @for ($i = 0; $i < $counter; $i++)
                         <div class="card">
-                            <div class="card-body" style="padding: 0.5rem">
-                                <input type="text" class="form-control-plaintext"
-                                       name="item-title[{{ $i }}]"
-                                       placeholder="my title"
-                                       value="{{ old("item-title.$i") }}">
-                                <input type="text" class="form-control-plaintext"
-                                       name="item-description[{{ $i }}]"
-                                       placeholder="my description"
-                                       value="{{ old("item-description.$i") }}">
-                                <input type="hidden" name="item-order[{{ $i }}]" value="{{ $i }}">
+                            <div class="card-body item-card">
+                                <div class="row">
+                                    <div class="form-check checkbox-ver-mar">
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control-plaintext form-control-lg"
+                                               name="item-title[{{ $i }}]"
+                                               placeholder="Title"
+                                               value="{{ old("item-title.$i") }}">
+                                        <input type="text" class="form-control-plaintext"
+                                               name="item-description[{{ $i }}]"
+                                               placeholder="Description"
+                                               value="{{ old("item-description.$i") }}">
+                                        <input type="hidden" name="item-order[{{ $i }}]" value="{{ $i }}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @endfor

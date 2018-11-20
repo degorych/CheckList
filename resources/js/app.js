@@ -14,27 +14,57 @@ const itemsCounter = document.getElementById('counter');
 
 let counter = 1;
 
+/*
+<div class="card-body item-card">
+    <div class="row">
+        <div class="form-check checkbox-ver-mar">
+            <input type="checkbox">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control-plaintext form-control-lg" name="item-title[0]" placeholder="my title" value="">
+            <input type="text" class="form-control-plaintext" name="item-description[0]" placeholder="my description" value="">
+            <input type="hidden" name="item-order[0]" value="0">
+        </div>
+    </div>
+</div>
+* */
+
 addItem.addEventListener('click', function (e) {
     e.preventDefault();
 
     const newCard = document.createElement('div');
-    newCard.className = "card";
+    newCard.className = 'card';
 
     const newCardBody = document.createElement('div');
-    newCardBody.className = "card-body";
+    newCardBody.className = 'card-body item-card';
+
+    const newRow = document.createElement('div');
+    newRow.className = 'row';
+
+    const newCheckboxContainer = document.createElement('div');
+    newCheckboxContainer.className = 'form-check checkbox-ver-mar';
+
+    const newCheckbox = document.createElement('input');
+    newCheckbox.setAttribute('type', 'checkbox');
+
+    newCheckboxContainer.appendChild(newCheckbox);
+    newRow.appendChild(newCheckboxContainer);
+
+    const newInputContainer = document.createElement('div');
+    newInputContainer.className = 'col';
 
     const inputSettings = [
         {
             type: 'text',
-            class: 'form-control-plaintext',
+            class: 'form-control-plaintext form-control-lg',
             name: `item-title[${counter}]`,
-            placeholder: 'my title'
+            placeholder: 'Title'
         },
         {
             type: 'text',
             class: 'form-control-plaintext',
             name: `item-description[${counter}]`,
-            placeholder: 'my description'
+            placeholder: 'Description'
         },
         {
             type: 'hidden',
@@ -49,9 +79,11 @@ addItem.addEventListener('click', function (e) {
             newElem.setAttribute(key, input[key]);
         }
 
-        newCardBody.appendChild(newElem);
+        newInputContainer.appendChild(newElem);
     });
 
+    newRow.appendChild(newInputContainer);
+    newCardBody.appendChild(newRow);
     newCard.appendChild(newCardBody);
     items.appendChild(newCard);
     counter++;
@@ -73,7 +105,7 @@ const sortable = Sortable.create(items, {
         list = [...list].filter(function(input) {
             const value = input.getAttribute('value');
             return value >= min && value <= max;
-        })
+        });
 
         list.forEach( function(element) {
             element.setAttribute('value', min);

@@ -32,25 +32,55 @@ var itemsCounter = document.getElementById('counter');
 
 var counter = 1;
 
+/*
+<div class="card-body item-card">
+    <div class="row">
+        <div class="form-check checkbox-ver-mar">
+            <input type="checkbox">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control-plaintext form-control-lg" name="item-title[0]" placeholder="my title" value="">
+            <input type="text" class="form-control-plaintext" name="item-description[0]" placeholder="my description" value="">
+            <input type="hidden" name="item-order[0]" value="0">
+        </div>
+    </div>
+</div>
+* */
+
 addItem.addEventListener('click', function (e) {
     e.preventDefault();
 
     var newCard = document.createElement('div');
-    newCard.className = "card";
+    newCard.className = 'card';
 
     var newCardBody = document.createElement('div');
-    newCardBody.className = "card-body";
+    newCardBody.className = 'card-body item-card';
+
+    var newRow = document.createElement('div');
+    newRow.className = 'row';
+
+    var newCheckboxContainer = document.createElement('div');
+    newCheckboxContainer.className = 'form-check checkbox-ver-mar';
+
+    var newCheckbox = document.createElement('input');
+    newCheckbox.setAttribute('type', 'checkbox');
+
+    newCheckboxContainer.appendChild(newCheckbox);
+    newRow.appendChild(newCheckboxContainer);
+
+    var newInputContainer = document.createElement('div');
+    newInputContainer.className = 'col';
 
     var inputSettings = [{
         type: 'text',
-        class: 'form-control-plaintext',
+        class: 'form-control-plaintext form-control-lg',
         name: 'item-title[' + counter + ']',
-        placeholder: 'my title'
+        placeholder: 'Title'
     }, {
         type: 'text',
         class: 'form-control-plaintext',
         name: 'item-description[' + counter + ']',
-        placeholder: 'my description'
+        placeholder: 'Description'
     }, {
         type: 'hidden',
         name: 'item-order[' + counter + ']',
@@ -63,9 +93,11 @@ addItem.addEventListener('click', function (e) {
             newElem.setAttribute(key, input[key]);
         }
 
-        newCardBody.appendChild(newElem);
+        newInputContainer.appendChild(newElem);
     });
 
+    newRow.appendChild(newInputContainer);
+    newCardBody.appendChild(newRow);
     newCard.appendChild(newCardBody);
     items.appendChild(newCard);
     counter++;
@@ -75,9 +107,6 @@ addItem.addEventListener('click', function (e) {
 var sortable = __WEBPACK_IMPORTED_MODULE_0_sortablejs_Sortable_js___default.a.create(items, {
     animation: 300,
     onEnd: function onEnd(evt) {
-        //var itemEl = evt.item;  // dragged HTMLElement
-        //evt.to;    // target list
-        //evt.from;  // previous list
         var min = evt.oldIndex; // element's old index within old parent
         var max = evt.newIndex; // element's new index within new parent
 
