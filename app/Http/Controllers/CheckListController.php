@@ -46,7 +46,7 @@ class CheckListController extends Controller
             'description' => $request->input('check-list-description'),
         ]);
 
-        $inputs = $request->only('item-title', 'item-description', 'item-order');
+        $inputs = $request->only('item-title', 'item-description', 'item-order', 'item-is-done');
         $inputsNumber = count($inputs['item-title']);
 
         for ($i = 0; $i < $inputsNumber; $i++) {
@@ -55,6 +55,7 @@ class CheckListController extends Controller
                 'title' => $inputs['item-title'][$i],
                 'description' => $inputs['item-description'][$i],
                 'order' => $inputs['item-order'][$i],
+                'is_done' => isset ($inputs['item-is-done'][$i]),
             ]);
         }
 
@@ -73,7 +74,7 @@ class CheckListController extends Controller
     {
         $checkList = CheckList::where('name', $name)->first();
         $this->authorize('show', $checkList);
-        $checkListParams = $checkList->checkItems->where('is_done', 0)->sortBy('order');
+        $checkListParams = $checkList->checkItems->sortBy('order');
         return view('checkList', ['checkList' => $checkList, 'checkListParams' => $checkListParams]);
     }
 
@@ -139,14 +140,10 @@ class CheckListController extends Controller
      */
     public function done(Request $request, $name)
     {
-        $inputs = $request->only('is-done');
-
-        if (!empty($inputs)) {
-            foreach ($inputs['is-done'] as $id => $input) {
-                $checkListItem = CheckItem::find($id);
-                $checkListItem->is_done = true;
-                $checkListItem->save();
-            }
+        foreach ($request['id'] as $id => $itemId) {
+            $checkListItem = CheckItem::find($id);
+            $checkListItem->is_done = isset($request['is-done'][$id]);
+            $checkListItem->save();
         }
 
         return redirect()->route('list.show', ['name' => $name])->with(['message' => 'Check list updated']);

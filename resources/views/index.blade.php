@@ -26,38 +26,35 @@
                     </div>
                 </div>
 
-                <input type="hidden" id="counter" name="check-list-counter" value="1">
+                @php
+                    $counter = old('check-list-counter') ?? 1;
+                @endphp
+
+                <input type="hidden" id="counter" name="check-list-counter" value="{{ $counter }}">
 
                 <div class="form-group row">
-                    <label for="check-list-color" class="col-sm-5 control-label">Select background color:</label>
-                    <div class="col-sm-2">
-                        <input id="check-list-color" type="color" name="check-list-color">
+                    <label for="check-list-color" class="col-sm-4 control-label">Select background color:</label>
+                    <div id="color-selector" class="col-sm-6">
+                        <input id="check-list-color" type="hidden" name="check-list-color">
                     </div>
                 </div>
                 <div id="items" class="form-group">
-
-                    @php
-                        $counter = old('check-list-counter') ?? 1;
-                    @endphp
 
                     @for ($i = 0; $i < $counter; $i++)
                         <div class="card">
                             <div class="card-body item-card">
                                 <div class="row">
-                                    <div class="form-check checkbox-ver-mar">
-                                        <input type="checkbox">
-                                    </div>
-                                    <div class="col">
-                                        <input type="text" class="form-control-plaintext form-control-lg"
+                                    <label class="col item-container">
+                                        <input type="checkbox" name="item-is-done[{{ $i }}]">
+                                        <span class="checkmark"></span>
+                                        <input type="text" class="form-control-plaintext form-control-lg item-title checkmark"
                                                name="item-title[{{ $i }}]"
-                                               placeholder="Title"
-                                               value="{{ old("item-title.$i") }}">
-                                        <input type="text" class="form-control-plaintext"
+                                               value="{{ old("item-title.$i") ?? '' }}" placeholder="Enter title">
+                                        <input type="text" class="form-control-plaintext item-description"
                                                name="item-description[{{ $i }}]"
-                                               placeholder="Description"
-                                               value="{{ old("item-description.$i") }}">
+                                               value="{{ old("item-description.$i") ?? '' }}" placeholder="Enter description">
                                         <input type="hidden" name="item-order[{{ $i }}]" value="{{ $i }}">
-                                    </div>
+                                    </label>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -6,29 +5,65 @@
  */
 
 import Sortable from 'sortablejs/Sortable.js'
+
 window.Sortable = Sortable;
 
+/**
+ * User script
+ */
 const addItem = document.getElementById('item-add');
 const items = document.getElementById('items');
 const itemsCounter = document.getElementById('counter');
+const colorSelector = document.getElementById('color-selector');
+const colorController = document.getElementById('check-list-color');
 
 let counter = 1;
 
-/*
-<div class="card-body item-card">
-    <div class="row">
-        <div class="form-check checkbox-ver-mar">
-            <input type="checkbox">
-        </div>
-        <div class="col">
-            <input type="text" class="form-control-plaintext form-control-lg" name="item-title[0]" placeholder="my title" value="">
-            <input type="text" class="form-control-plaintext" name="item-description[0]" placeholder="my description" value="">
-            <input type="hidden" name="item-order[0]" value="0">
-        </div>
-    </div>
-</div>
-* */
+/**
+ * Create color menu
+ */
+(function () {
+    if (!colorSelector) {
+        return;
+    }
 
+    const colorScheme = [
+        '#F8F9FA', // default
+        '#FFFFFF', // white
+        '#ffb5b2', // red
+        '#FFF8AF', // yellow
+        '#C2FF9C', // green
+        '#B9E7FF', // blue
+        '#d0c2ff', // violet
+        '#FFC7DA' // ping
+    ];
+
+    for (const scheme of colorScheme) {
+        const newColor = document.createElement('span');
+        newColor.style.backgroundColor = scheme;
+
+        colorSelector.appendChild(newColor);
+    }
+
+    colorSelector.addEventListener('click', function (e) {
+        const selectedColor = e.target.style.backgroundColor;
+        colorController.setAttribute('value', rgbToHex(selectedColor));
+        document.body.style.backgroundColor = selectedColor;
+    });
+})();
+
+function rgbToHex(rgb) {
+    const rgbValues = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/i.exec(rgb);
+    let hex = '#';
+    for (let i = 1; i < 4; i++) {
+        hex += parseInt(rgbValues[i], 10).toString(16).padStart(2, '0');
+    }
+    return hex;
+}
+
+/**
+ * Add new item
+ */
 addItem.addEventListener('click', function (e) {
     e.preventDefault();
 
@@ -41,30 +76,25 @@ addItem.addEventListener('click', function (e) {
     const newRow = document.createElement('div');
     newRow.className = 'row';
 
-    const newCheckboxContainer = document.createElement('div');
-    newCheckboxContainer.className = 'form-check checkbox-ver-mar';
-
-    const newCheckbox = document.createElement('input');
-    newCheckbox.setAttribute('type', 'checkbox');
-
-    newCheckboxContainer.appendChild(newCheckbox);
-    newRow.appendChild(newCheckboxContainer);
-
-    const newInputContainer = document.createElement('div');
-    newInputContainer.className = 'col';
+    const newCheckboxContainer = document.createElement('label');
+    newCheckboxContainer.className = 'col item-container';
 
     const inputSettings = [
         {
-            type: 'text',
-            class: 'form-control-plaintext form-control-lg',
-            name: `item-title[${counter}]`,
-            placeholder: 'Title'
+            type: 'checkbox',
+            name: `item-is-done[${counter}]`
         },
         {
             type: 'text',
-            class: 'form-control-plaintext',
+            class: 'form-control-plaintext form-control-lg item-title checkmark',
+            name: `item-title[${counter}]`,
+            placeholder: 'Enter title'
+        },
+        {
+            type: 'text',
+            class: 'form-control-plaintext item-description',
             name: `item-description[${counter}]`,
-            placeholder: 'Description'
+            placeholder: 'Enter description'
         },
         {
             type: 'hidden',
@@ -79,10 +109,15 @@ addItem.addEventListener('click', function (e) {
             newElem.setAttribute(key, input[key]);
         }
 
-        newInputContainer.appendChild(newElem);
+        newCheckboxContainer.appendChild(newElem);
     });
 
-    newRow.appendChild(newInputContainer);
+    const newCheckmark = document.createElement('span');
+    newCheckmark.className = 'checkmark';
+
+    newCheckboxContainer.insertBefore(newCheckmark, newCheckboxContainer.children[1]);
+
+    newRow.appendChild(newCheckboxContainer);
     newCardBody.appendChild(newRow);
     newCard.appendChild(newCardBody);
     items.appendChild(newCard);
@@ -90,6 +125,10 @@ addItem.addEventListener('click', function (e) {
     itemsCounter.setAttribute('value', counter.toString());
 });
 
+/**
+ * Make items sortable, change items
+ * @type {items}
+ */
 const sortable = Sortable.create(items, {
     animation: 300,
     onEnd: function (evt) {
@@ -102,21 +141,14 @@ const sortable = Sortable.create(items, {
 
         let list = items.querySelectorAll('input[type="hidden"]');
 
-        list = [...list].filter(function(input) {
+        list = [...list].filter(function (input) {
             const value = input.getAttribute('value');
             return value >= min && value <= max;
         });
 
-        list.forEach( function(element) {
+        list.forEach(function (element) {
             element.setAttribute('value', min);
             min++;
         });
     },
 });
-
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */

@@ -19,6 +19,7 @@
 
 .form-control-lg {
     font-weight: bold;
+    color: #495057;
 }
 
 .checkbox-ver-mar {
@@ -27,4 +28,73 @@
 
 .item-card {
     padding: 0.5rem;
+}
+
+.item-container {
+    display: block;
+    position: relative;
+    padding-left: 50px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+.item-description {
+    font-size: 15px;
+    color: gray;
+}
+
+.checkmark {
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.item-container input[type="checkbox"] {
+    display: none
+}
+
+.checkmark::before {
+    content: "";
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    position: absolute;
+    left: 20px;
+    top: 12px;
+    border-radius: 3px;
+}
+
+.item-container:hover input[type="checkbox"]~.checkmark::before {
+    background-color: #ccc;
+}
+
+.item-container input[type="checkbox"]:checked~.checkmark::before {
+    background-color: #2196F3;
+}
+
+.item-container input[type="checkbox"]:checked~.checkmark::after {
+    display: block;
+    left: 27px;
+    top: 14px;
+    width: 7px;
+    height: 13px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    content: "";
+    position: absolute;
+}
+
+.item-container input[type="checkbox"]:checked~.checkmark {
+    text-decoration: line-through
+}
+
+#color-selector > span {
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: solid 1px #eaeaea;
+    display: inline-block;
 }

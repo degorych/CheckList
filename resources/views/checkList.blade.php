@@ -14,6 +14,7 @@
                     @foreach($checkListParams as $param)
                         <div class="form-check">
                             <label>
+                                <input type="hidden" value="{{ $param['id'] }}" name="id[{{ $param['id'] }}]">
                                 <input type="checkbox"
                                        {{ $param['is_done'] ? 'checked' : '' }} name="is-done[{{ $param['id'] }}]">
                                 <span class="label-text">{{ $param['title'] }}</span>

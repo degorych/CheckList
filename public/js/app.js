@@ -24,29 +24,85 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
  */
 
 
+
 window.Sortable = __WEBPACK_IMPORTED_MODULE_0_sortablejs_Sortable_js___default.a;
 
+/**
+ * User script
+ */
 var addItem = document.getElementById('item-add');
 var items = document.getElementById('items');
 var itemsCounter = document.getElementById('counter');
+var colorSelector = document.getElementById('color-selector');
+var colorController = document.getElementById('check-list-color');
 
 var counter = 1;
 
-/*
-<div class="card-body item-card">
-    <div class="row">
-        <div class="form-check checkbox-ver-mar">
-            <input type="checkbox">
-        </div>
-        <div class="col">
-            <input type="text" class="form-control-plaintext form-control-lg" name="item-title[0]" placeholder="my title" value="">
-            <input type="text" class="form-control-plaintext" name="item-description[0]" placeholder="my description" value="">
-            <input type="hidden" name="item-order[0]" value="0">
-        </div>
-    </div>
-</div>
-* */
+/**
+ * Create color menu
+ */
+(function () {
+    if (!colorSelector) {
+        return;
+    }
 
+    var colorScheme = ['#F8F9FA', // default
+    '#FFFFFF', // white
+    '#ffb5b2', // red
+    '#FFF8AF', // yellow
+    '#C2FF9C', // green
+    '#B9E7FF', // blue
+    '#d0c2ff', // violet
+    '#FFC7DA' // ping
+    ];
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = colorScheme[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var scheme = _step.value;
+
+            var newColor = document.createElement('span');
+            newColor.style.backgroundColor = scheme;
+
+            colorSelector.appendChild(newColor);
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    colorSelector.addEventListener('click', function (e) {
+        var selectedColor = e.target.style.backgroundColor;
+        colorController.setAttribute('value', rgbToHex(selectedColor));
+        document.body.style.backgroundColor = selectedColor;
+    });
+})();
+
+function rgbToHex(rgb) {
+    var rgbValues = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/i.exec(rgb);
+    var hex = '#';
+    for (var i = 1; i < 4; i++) {
+        hex += parseInt(rgbValues[i], 10).toString(16).padStart(2, '0');
+    }
+    return hex;
+}
+
+/**
+ * Add new item
+ */
 addItem.addEventListener('click', function (e) {
     e.preventDefault();
 
@@ -59,28 +115,22 @@ addItem.addEventListener('click', function (e) {
     var newRow = document.createElement('div');
     newRow.className = 'row';
 
-    var newCheckboxContainer = document.createElement('div');
-    newCheckboxContainer.className = 'form-check checkbox-ver-mar';
-
-    var newCheckbox = document.createElement('input');
-    newCheckbox.setAttribute('type', 'checkbox');
-
-    newCheckboxContainer.appendChild(newCheckbox);
-    newRow.appendChild(newCheckboxContainer);
-
-    var newInputContainer = document.createElement('div');
-    newInputContainer.className = 'col';
+    var newCheckboxContainer = document.createElement('label');
+    newCheckboxContainer.className = 'col item-container';
 
     var inputSettings = [{
-        type: 'text',
-        class: 'form-control-plaintext form-control-lg',
-        name: 'item-title[' + counter + ']',
-        placeholder: 'Title'
+        type: 'checkbox',
+        name: 'item-is-done[' + counter + ']'
     }, {
         type: 'text',
-        class: 'form-control-plaintext',
+        class: 'form-control-plaintext form-control-lg item-title checkmark',
+        name: 'item-title[' + counter + ']',
+        placeholder: 'Enter title'
+    }, {
+        type: 'text',
+        class: 'form-control-plaintext item-description',
         name: 'item-description[' + counter + ']',
-        placeholder: 'Description'
+        placeholder: 'Enter description'
     }, {
         type: 'hidden',
         name: 'item-order[' + counter + ']',
@@ -93,10 +143,15 @@ addItem.addEventListener('click', function (e) {
             newElem.setAttribute(key, input[key]);
         }
 
-        newInputContainer.appendChild(newElem);
+        newCheckboxContainer.appendChild(newElem);
     });
 
-    newRow.appendChild(newInputContainer);
+    var newCheckmark = document.createElement('span');
+    newCheckmark.className = 'checkmark';
+
+    newCheckboxContainer.insertBefore(newCheckmark, newCheckboxContainer.children[1]);
+
+    newRow.appendChild(newCheckboxContainer);
     newCardBody.appendChild(newRow);
     newCard.appendChild(newCardBody);
     items.appendChild(newCard);
@@ -104,6 +159,10 @@ addItem.addEventListener('click', function (e) {
     itemsCounter.setAttribute('value', counter.toString());
 });
 
+/**
+ * Make items sortable, change items
+ * @type {items}
+ */
 var sortable = __WEBPACK_IMPORTED_MODULE_0_sortablejs_Sortable_js___default.a.create(items, {
     animation: 300,
     onEnd: function onEnd(evt) {
@@ -129,12 +188,6 @@ var sortable = __WEBPACK_IMPORTED_MODULE_0_sortablejs_Sortable_js___default.a.cr
         });
     }
 });
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 /***/ }),
 /* 3 */
